@@ -1,0 +1,39 @@
+class Solution:
+    def __init__(self):
+        self.Maptable: dict = {}
+    
+    def findMajorityElem(self, numbers: list, low: int, high: int):
+        try:
+            if high-low == 1:
+                return numbers[low:high]
+
+            mid: int = (high + low) // 2
+            left = self.findMajorityElem(numbers=numbers, low=low, high=mid)
+            right = self.findMajorityElem(numbers=numbers, low=mid, high=high)
+
+            if left:
+                if left[0] in self.Maptable:
+                    self.Maptable[left[0]] += 1
+                else:
+                    self.Maptable[left[0]] = 1
+
+            if right:
+                if right[0] in self.Maptable:
+                    self.Maptable[right[0]] += 1mm
+                else:
+                    self.Maptable[right[0]] = 1
+
+        except Exception as error:
+            print(f"[ERROR] findMajorityElem: {error}")
+    
+    def majorityElement(self, nums: List[int]) -> int:
+        try:
+            if len(nums) == 1:
+                return nums[0]
+            
+            self.findMajorityElem(numbers=nums, low=0, high=len(nums))
+            items = self.Maptable.items()
+            ret = sorted(items, key= lambda x : x[1], reverse=True)
+            return ret[0][0]
+        except Exception as error:
+            print(f"[ERROR] majorityElement: {error}")
